@@ -27,7 +27,6 @@ pub fn calculate(filename: []const u8, second_stage: bool) !u128 {
     }
     // Remove empty last line
     _ = lines.pop();
-    std.debug.print("Last element: {s}\n", .{lines.getLast()});
 
     var array_1: [1000]i128 = undefined;
     @memset(&array_1, 0);
@@ -35,16 +34,12 @@ pub fn calculate(filename: []const u8, second_stage: bool) !u128 {
     @memset(&array_2, 0);
 
     for (lines.items, 0..) |line, i| {
-        std.debug.print("{s}\n", .{line});
         var it2 = std.mem.splitSequence(u8, @constCast(line), "   ");
         var j: u32 = 0;
         while (it2.next()) |x| {
-            std.debug.print("{s}\n", .{x});
             if (j % 2 == 0) {
-                std.debug.print("Add to array_1\n", .{});
                 array_1[i] = try std.fmt.parseInt(i128, x, 10);
             } else {
-                std.debug.print("Add to array_2\n", .{});
                 array_2[i] = try std.fmt.parseInt(i128, x, 10);
             }
             j += 1;
@@ -94,7 +89,6 @@ test "initial test" {
     const filename = "sampleinput";
     result = try calculate(filename, false);
 
-    std.debug.print("Result: {d}\n", .{result});
     try expect(result == 11);
 }
 
@@ -104,6 +98,5 @@ test "second stage test" {
     const filename = "sampleinput";
     result = try calculate(filename, true);
 
-    std.debug.print("Result: {d}\n", .{result});
     try expect(result == 31);
 }
